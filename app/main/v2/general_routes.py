@@ -27,7 +27,7 @@ def get_serializer():
 @general_bp.route('/')
 def landing_page():
     """Landing page for unauthenticated users"""
-    return render_template('/v1/landing.html', title='Lost & Found')
+    return render_template('/v2/landing.html', title='Lost & Found')
 
 
 @general_bp.route('/test_mail')

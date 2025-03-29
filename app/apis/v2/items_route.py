@@ -266,8 +266,8 @@ def found_items():
     
     if search_query:
         query = query.filter(
-        (Item.item_name.ilike(f'%{search_query}')) |
-        (Item.description.ilike(f'%{search_query}'))
+        (Item.item_name.ilike(f'%{search_query}%')) |
+        (Item.description.ilike(f'%{search_query}%'))
         )
         
         
@@ -309,7 +309,7 @@ def found_items():
         }
 
         items.append(item_dict)
-    
+    print(items)
     response = {
         'items': items,
         'total': pagination.total,

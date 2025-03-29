@@ -56,18 +56,37 @@ function initItemLoader() {
                     const daysAgo = Math.ceil((new Date() - itemDate) / (1000 * 60 * 60 * 24));
                     
                     
-                    // Create item HTML
+                    // Updated newsfeed item HTML generation
                     const itemHtml = `
-                        <div class="col-md-4 mb-4">
-                            <div class="newsfeed-item card h-100" data-id="${item.id}">
-                                <img src="${item.item_image || '/static/images/default-item-image.jpg'}" 
-                                     class="card-img-top" alt="Item Image" style="height: 200px; object-fit: cover;">
-                                <div class="card-body">
-                                    <div class="report-date text-muted small">Reported: ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago</div>
-                                    <div class="location"><i class="fas fa-map-marker-alt me-1"></i>${item.location_found || 'Unknown'}</div>
-                                    <p class="mt-2">${item.item_name}</p>
-                                    <div class="claims-count mt-auto text-end">
-                                        <span class="badge bg-secondary">Claims: ${item.number_of_claims || 0}</span>
+                        <div class="col-sm-6 col-lg-4 mb-4">
+                            <div class="newsfeed-item card h-100 shadow-sm hover-effect" data-id="${item.id}">
+                                <div class="card-img-wrapper">
+                                    <img src="${item.item_image || '/static/images/default-item-image.jpg'}" 
+                                         class="card-img-top" alt="${item.item_name || 'Lost Item'}" loading="lazy">
+                                    <div class="item-category">
+                                        <span class="badge bg-primary">${item.item_category || 'Misc'}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="card-body d-flex flex-column p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <span class="text-muted small">
+                                            <i class="fas fa-clock me-1"></i> ${daysAgo} day${daysAgo !== 1 ? 's' : ''} ago
+                                        </span>
+                                        <span class="badge ${item.number_of_claims > 0 ? 'bg-warning text-dark' : 'bg-light text-secondary'} claims-badge">
+                                            ${item.number_of_claims || 0} claim${item.number_of_claims !== 1 ? 's' : ''}
+                                        </span>
+                                    </div>
+                                    
+                                    <h5 class="card-title mb-2">${item.item_name || 'Unknown Item'}</h5>
+                                    
+                                    <div class="location-display mb-3">
+                                        <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                        <span class="text-muted">${item.location_found || 'Unknown location'}</span>
+                                    </div>
+                                    
+                                    <div class="mt-auto text-end">
+                                        <button class="btn btn-sm btn-outline-primary view-details-btn">View Details</button>
                                     </div>
                                 </div>
                             </div>
@@ -78,12 +97,29 @@ function initItemLoader() {
 
                 // Add click event to show item details in modal
                 document.querySelectorAll('.newsfeed-item').forEach(item => {
-                    item.addEventListener('click', () => {
-                        const itemId = item.getAttribute('data-id');
-                        currentItemId = itemId; // Store the item ID for claiming
-                        fetchItemDetails(itemId);
-                        itemDetailsModal.show();
+                    const viewDetailsBtn = item.querySelector('.view-details-btn');
+                    
+                    // Make whole card clickable
+                    item.addEventListener('click', (e) => {
+                        // Only trigger if not clicking the button (button has its own handler)
+                        if (!e.target.closest('.view-details-btn')) {
+                            const itemId = item.getAttribute('data-id');
+                            currentItemId = itemId;
+                            fetchItemDetails(itemId);
+                            itemDetailsModal.show();
+                        }
                     });
+                    
+                    // Button click handler
+                    if (viewDetailsBtn) {
+                        viewDetailsBtn.addEventListener('click', (e) => {
+                            e.stopPropagation(); // Prevent card click
+                            const itemId = item.getAttribute('data-id');
+                            currentItemId = itemId;
+                            fetchItemDetails(itemId);
+                            itemDetailsModal.show();
+                        });
+                    }
                 });
             })
             .catch(error => {
@@ -160,7 +196,7 @@ function initItemLoader() {
             event.preventDefault();
             const filters = {
                 status: 'found',
-                search: document.getElementById('search-input')?.value || '',
+                search_query: document.getElementById('search-input')?.value.toLowerCase() || '',
                 category: document.getElementById('filter-category')?.value || '',
                 date_start: document.getElementById('filter-date-start')?.value || '',
                 date_end: document.getElementById('filter-date-end')?.value || '',

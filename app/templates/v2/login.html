@@ -1,52 +1,54 @@
-{% extends "/v2/layout.html" %}
+{% extends "/v2/auth_layout.html" %}
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <section class="login-section py-5">
-        <div class="container">
-            <h2 class="text-center mb-4">Login</h2>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                        {% if messages %}
-                            {% for category, message in messages %}
-                                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
-                                    {{ message }}
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    <form method="POST">
-                        {{ form.hidden_tag() }}
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            {{ form.username(class="form-control", placeholder="Enter your username") }}
-                            {% for error in form.username.errors %}
-                                <div class="text-danger">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            {{ form.password(class="form-control", placeholder="Enter your password") }}
-                            {% for error in form.password.errors %}
-                                <div class="text-danger">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                        <div class="mb-3 form-check">
-                            {{ form.remember(class="form-check-input") }}
-                            <label class="form-check-label" for="remember">Remember me</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100">Login</button>
-                    </form>
-                    <div class="text-center mt-3">
-                        <a href="{{ url_for('auth_bp.forgot_password') }}">Forgot Password?</a>
+<section class="login-section vh-100 d-flex align-items-center justify-content-center">
+    <div class="container">
+        <div class="row g-0 shadow-lg rounded overflow-hidden" style="max-width: 900px; margin: auto;">
+            
+            <!-- Illustration Section -->
+            <div class="col-md-6 d-none d-md-block bg-dark text-white d-flex align-items-center justify-content-center p-4">
+                <div class="text-center">
+                    <img src="{{ url_for('static', filename='images/illustrate_002.jpg') }}" alt="Login Illustration" class="img-fluid" style="max-width: 80%;">
+                    <h4 class="mt-3">Welcome Back!</h4>
+                    <p class="text-muted">Log in to continue accessing your dashboard.</p>
+                </div>
+            </div>
+            
+            <!-- Login Form Section -->
+            <div class="col-md-6 p-5 bg-white">
+                <h2 class="text-center mb-4 text-dark">Login</h2>
+                    
+                <form method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        {{ form.username(class="form-control", placeholder="Enter your username") }}
+                        {% for error in form.username.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
                     </div>
-                    <div class="text-center mt-2">
-                        <p>Don't have an account? <a href="{{ url_for('auth_bp.register') }}">Sign Up</a></p>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        {{ form.password(class="form-control", placeholder="Enter your password") }}
+                        {% for error in form.password.errors %}
+                            <div class="text-danger">{{ error }}</div>
+                        {% endfor %}
                     </div>
+                    <div class="mb-3 form-check">
+                        {{ form.remember(class="form-check-input") }}
+                        <label class="form-check-label" for="remember">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Login</button>
+                </form>
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('auth_bp.forgot_password') }}" class="text-muted">Forgot Password?</a>
+                </div>
+                <div class="text-center mt-2">
+                    <p>Don't have an account? <a href="{{ url_for('auth_bp.register') }}" class="text-dark">Sign Up</a></p>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 {% endblock %}

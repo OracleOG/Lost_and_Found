@@ -279,3 +279,307 @@
         padding: 0 10px;
     }
 }
+
+
+
+
+/* new */
+
+/* Typography enhancements */
+.hero-title {
+    font-family: 'Post No Bills Jaffna', sans-serif;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.hero-subtitle {
+    font-family: 'Irish Grover', cursive;
+    font-size: 1.6rem;
+}
+
+.section-title {
+    font-family: 'Post No Bills Jaffna', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.section-title:after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 3px;
+    background-color: #dc3545;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.feature-title {
+    font-family: 'Irish Grover', cursive;
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+/* Hero section enhancements */
+#hero {
+    position: relative;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../static/images/hero-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    min-height: 80vh;
+    color: white;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.shape-blob {
+    position: absolute;
+    background: rgba(220, 53, 69, 0.2);
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    right: -150px;
+    bottom: -150px;
+}
+
+.blob-2 {
+    width: 300px;
+    height: 300px;
+    left: -100px;
+    top: 50px;
+    background: rgba(25, 135, 84, 0.15);
+}
+
+/* Feature card enhancements */
+.feature-card {
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    border: none;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.feature-icon {
+    font-size: 3rem;
+    margin-bottom: 1.2rem;
+    color: #dc3545;
+}
+
+/* Stats section */
+.stats-section {
+    background-color: #f8f9fa;
+    padding: 3rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 2rem 1rem;
+}
+
+.stat-number {
+    font-family: 'Post No Bills Jaffna', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #dc3545;
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    font-family: 'Irish Grover', cursive;
+    font-size: 1.2rem;
+    color: #495057;
+}
+
+/* Testimonial section */
+.testimonial-card {
+    border-radius: 12px;
+    border: none;
+    overflow: hidden;
+}
+
+.testimonial-quote {
+    position: relative;
+    padding: 2rem;
+    padding-left: 3rem;
+}
+
+.testimonial-quote:before {
+    content: '"';
+    font-family: Georgia, serif;
+    font-size: 5rem;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    color: rgba(220, 53, 69, 0.2);
+}
+
+/* Team section */
+.team-member {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.team-member img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+}
+
+.team-member h5 {
+    font-family: 'Post No Bills Jaffna', sans-serif;
+    margin-bottom: 0.5rem;
+}
+
+.team-social a {
+    display: inline-block;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    color: #495057;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+}
+
+.team-social a:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* CTA section */
+.cta-section {
+    background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('../static/images/cta-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.cta-title {
+    font-family: 'Post No Bills Jaffna', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.cta-text {
+    font-size: 1.1rem;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+}
+
+/* Professional styling for newsfeed items */
+.newsfeed-item {
+    transition: all 0.3s ease;
+    border: none;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.hover-effect:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.card-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    height: 180px;
+}
+
+.card-img-wrapper img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.newsfeed-item:hover .card-img-wrapper img {
+    transform: scale(1.05);
+}
+
+.item-category {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.item-category .badge {
+    font-weight: 500;
+    padding: 0.4rem 0.8rem;
+    border-radius: 30px;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    color: #333;
+}
+
+.location-display {
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+}
+
+.location-display i {
+    font-size: 1rem;
+}
+
+.claims-badge {
+    font-weight: normal;
+    padding: 0.4em 0.8em;
+    border-radius: 30px;
+}
+
+.view-details-btn {
+    font-size: 0.85rem;
+    border-radius: 30px;
+    padding: 0.3rem 0.8rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .card-img-wrapper {
+        height: 160px;
+    }
+}
+
+/* Animation for newly loaded items */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.newsfeed-item {
+    animation: fadeIn 0.5s ease forwards;
+}

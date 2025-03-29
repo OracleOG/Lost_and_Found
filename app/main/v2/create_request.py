@@ -75,7 +75,7 @@ def create_request():
             flash(f'Error creating item: {response_data.get("error", "unknown error")}', 'danger')
         '''
 
-        # Directly create the item in the database
+        # Directly create the item in the database 
         item = storage.create(Item, **item_data)
 
         if status == 'lost':
@@ -87,7 +87,7 @@ def create_request():
                 related_items = item.find_related_items()
                 if related_items:
                     flash('Potential related items found! Please scroll & submit a claim where correct.', 'info')
-                    return redirect(url_for('create_request_bp.related_items', items_id=[i.id for i in related_items]))
+                    return redirect(url_for('create_request_bp.related_items', items_id=','.join([str(i[0].id) for i in related_items])))
                 flash('No match found at this time. Please check back later.', 'info')
             flash(f'{status.capitalize()} item reported successfully!', 'success')
         return redirect(url_for('home_bp.home'))

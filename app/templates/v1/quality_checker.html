@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Quality Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='images/LOST.png') }}" alt="App Logo" height="50">
+
+                 <span class="ms-2">LOST & FOUND</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="create_request.html">Create Request</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="search_results.html">Search Results</a>
+                        </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+    <!-- Item Details Section -->
+    <section class="py-5">
+        <div class="container">
+            {% for item_id, item in items.items() %}
+            <div class="card text-center mb-5">
+                {% if item.image_url %}
+                    <img src="{{ url_for('uploaded_file', filename=item.image_url|get_filename) }}" class="card-img-top mx-auto" alt="Item Image" style="max-width: 100%; height: auto;">
+                {% else %}
+                <img src="https://via.placeholder.com/150" class="img-fluid" alt="Placeholder Image" style="width: 150px;">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.description }}</h5>
+                    <p class="card-text">{{ item.details }}</p>
+                </div>
+            </div>
+
+            <!-- Claims Section -->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Additional Information</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for match in matches[item_id] %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td><a href="#" class="claim-link" data-bs-toggle="modal" data-bs-target="#viewModal" data-claim-id="{{match.claim_id}}">{{ match.claim_id }}</a></td>
+                            <td>
+                                            <form action="/matches/{{ match.id }}/confirm" method="post" style="display:inline;">
+                                                <input type="hidden" name="page" value="{{ page }}">
+                                                <button type="submit" class="btn btn-success">Confirm</button>
+                                            </form>
+                                            <form action="/matches/{{ match.id }}/reject" method="post" style="display:inline;">
+                                                <input type="hidden" name="page" value="{{ page }}">
+                                                <button type="submit" class="btn btn-danger reject-claim">Reject</button>
+                                            </form>
+                              </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% endfor %}
+            
+            <!-- Pagination -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('quality_bp.quality_checker', page=page-1) }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% for p in range(1, total_pages + 1) %}
+                    <li class="page-item {% if p == page %}active{% endif %}"><a class="page-link" href="{{ url_for('quality_bp.quality_checker', page=p) }}">{{ p }}</a></li>
+                    {% endfor %}
+                    {% if page < total_pages %}
+                    <li class="page-item">
+                        <a class="page-link" href="{{ url_for('quality_bp.quality_checker', page=page+1) }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </section>
+
+    <!-- View Modal -->
+  
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+   
+  <!-- Footer -->
+  <footer class="footer py-3 bg-dark text-white text-center">
+    <div class="container">
+        <p class="mb-0">
+            <strong>Lost & Found</strong> by <a href="{{ url_for('main.landing_page') }}" class="text-white">Your Company</a>. © 2024 All rights reserved.
+        </p>
+    </div>
+</footer>
+</html>

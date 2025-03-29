@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found - Create Request</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Include the same header as index.html -->
+    <header class="navbar is-light">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="logo.png" alt="App Logo">
+                <span class="ml-2">LOST & FOUND</span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="index.html">Home</a>
+                <a class="navbar-item" href="search_results.html">Search Results</a>
+                <a class="navbar-item" href="quality_checker.html">Quality Checker</a>
+            </div>
+        </div>
+    </header>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Create a Request</h1>
+            <form class="box">
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Name</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="e.g Alex Smith">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Email</label>
+                            <div class="control">
+                                <input class="input" type="email" placeholder="e.g. alexsmith@gmail.com">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">Phone Number</label>
+                            <div class="control">
+                                <input class="input" type="tel" placeholder="e.g. +1 234 567 890">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Item Description</label>
+                            <div class="control">
+                                <textarea class="textarea" placeholder="Describe the item..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-primary">Submit Request</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+    <!-- Include the same footer as index.html -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Lost & Found</strong> by <a href="#">Your Company</a>. © 2024 All rights reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

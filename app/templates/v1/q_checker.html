@@ -1,0 +1,223 @@
+{% extends "layout.html" %}
+{% block title %}Quality Checker{% endblock %}
+{% block styling %}
+.custom-spacing p {
+    margin-bottom: 0.2rem; /* Adjust the spacing as needed */
+}
+{% endblock styling %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Section -->
+        <aside class="col-md-3 bg-light border-right vh-100" style="position: fixed; font-size: 0.9rem;">
+            <div class="p-3">
+                <h4>Item Details</h4>
+                <div class="row">
+                    {% if item.id %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>ID:</strong></p>
+                        <p>{{ item.id }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.description %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Description:</strong></p>
+                        <p>{{ item.description }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.category %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Category:</strong></p>
+                        <p>{{ item.category }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.status %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Status:</strong></p>
+                        <p>{{ item.status }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.date_reported %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Date Reported:</strong></p>
+                        <p>{{ item.date_reported }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.user_id %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>User ID:</strong></p>
+                        <p>{{ item.user_id }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.name %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Name:</strong></p>
+                        <p>{{ item.name }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.email %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Email:</strong></p>
+                        <p>{{ item.email }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.phone %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Phone:</strong></p>
+                        <p>{{ item.phone }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.item_name %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Item Name:</strong></p>
+                        <p>{{ item.item_name }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.item_category %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Item Category:</strong></p>
+                        <p>{{ item.item_category }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.item_color %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Item Color:</strong></p>
+                        <p>{{ item.item_color }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.item_brand %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Item Brand:</strong></p>
+                        <p>{{ item.item_brand }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.date_lost_found %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Date Lost/Found:</strong></p>
+                        <p>{{ item.date_lost_found }}</p>
+                    </div>
+                    {% endif %}
+                    {% if item.location_lost_found %}
+                    <div class="col-6 mb-3 custom-spacing">
+                        <p><strong>Location Lost/Found:</strong></p>
+                        <p>{{ item.location_lost_found }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+        
+
+        <!-- Main Content -->
+        <div class="col-md-9 offset-md-3">
+            <div class="d-flex justify-content-between align-items-center my-3">
+                <div>
+                    <a href="{{ url_for('quality_bp.Q_list') }}" class="btn btn-secondary"><<</a>
+                    <a href="#" class="btn btn-primary ms-2">Previous</a>
+                    <a href="#" class="btn btn-primary ms-2">Next</a>
+                </div>
+                <h2 class="text-center">Item Details</h2>
+            </div>
+            <div class="card text-center mb-4">
+                {% if item.image_url %}
+                <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                    <img src="{{ url_for('uploaded_file', filename=item.image_url|get_filename) }}" alt="Item Image" style="max-width: 200px;">         
+         
+                    
+                </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+                    <h5 class="card-title">{{ item.item_name }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                </div>
+            </div>
+            
+            
+            <h2>Claims</h2>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Claim Id</th>
+                            <th scope="col">Additional Information</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <!--
+                    <tbody>
+                        {% for claim in claims %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <th scope="row">{{ claim.id }}</th>
+                            <td><a href="#" class="claim-link" data-claim-id="{{ claim.id }}">{{ claim.additional_information }}</a></td>
+                            <td>
+                                <button class="btn btn-danger reject-claim" data-claim-id="{{ claim.id }}">Reject</button>
+                                <button class="btn btn-success confirm-claim" data-claim-id="{{ claim.id }}">Confirm</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    -->
+                    <tbody>
+                        {% for match in matches %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <th scope="row">{{ match.match_id }}</th>
+                            <td><a href="#" class="claim-link" data-claim-id="{{ match.match_id }}">{{ match.claim_description }}</a></td>
+                            <td>
+                                <form action="/matches/{{ match.match_id }}/confirm" method="post" style="display:inline;">
+                                    <input type="hidden" name="page" value="{{ page }}">
+                                    <button type="submit" class="btn btn-success">Confirm</button>
+                                </form>
+                                <form action="/matches/{{ match.match_id }}/reject" method="post" style="display:inline;">
+                                    <input type="hidden" name="page" value="{{ page }}">
+                                    <button type="submit" class="btn btn-danger reject-claim">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+           
+        </div>
+    </div>
+</div>
+
+<!-- Claim Modal -->
+<div class="modal fade" id="claimModal" tabindex="-1" role="dialog" aria-labelledby="claimModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="claimModalLabel">Claim Details</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Claim details will be populated here dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const rejectButtons = document.querySelectorAll('.reject-claim');
+        const confirmButtons = document.querySelectorAll('.confirm-claim');
+
+        
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script src="../js/script.js"></script>
+{% endblock content %}
+

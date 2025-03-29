@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block styling %}
+background-color: #f8f9fa;
+{% endblock styling %}
+{% block content %}
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <form class="d-flex" id="search-form">
+                        <input class="form-control me-2" type="search" id="search-input" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-3">
+                    <a class="btn btn-primary btn-lg w-100" href="{{ url_for('item_bp.upload_item') }}">Find Item</a>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-secondary btn-lg w-100" href="{{ url_for('item_bp.upload_item') }}">Report Item</a>
+                </div>
+            </div>
+            <div class="row filter-sort-icon justify-content-center mt-4">
+                <select id="filter-category" class="form-select d-inline-block" style="width: auto;">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="documents">Documents</option>
+                    <option value="miscellaneous">Miscellaneous</option>
+                </select>
+                <input type="text" id="filter-location" class="form-control d-inline-block" style="width: auto;" placeholder="Location">
+                <input type="date" id="filter-date-start" class="form-control d-inline-block" style="width: auto;">
+                <input type="date" id="filter-date-end" class="form-control d-inline-block" style="width: auto;">
+                <button id="filter-button" class="btn btn-outline-secondary" style="width: auto;">Filter</button>
+            </div>
+        </div>
+    </section>
+    <hr>
+
+    <!-- Newsfeed Section -->
+    <section class="newsfeed-section">
+        <div class="container">
+            <div id="newsfeed-container" class="row">
+                <!-- Items will be dynamically populated here -->
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

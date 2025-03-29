@@ -1,0 +1,107 @@
+{% extends "/v2/layout.html" %}
+{% block content %}
+<!-- Intro Section -->
+<section id="intro" class="hero d-flex justify-content-center align-items-center">
+    <div class="intro-text">
+        <h1 class="display-3">LOST & FOUND</h1>
+        <p class="lead">Find your lost items or report found items easily</p>
+        <div>
+            <a href="{{ url_for('home_bp.home') }}" class="btn btn-primary btn-lg me-2">Browse Items</a>
+            <a href=" {{ url_for('create_request_bp.create_request') }}" class="btn btn-secondary btn-lg">Report Item</a>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-6">Key Features</h2>
+        <div class="row">
+            <div class="col-12 feature-box">
+                <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="../static/images/carousel_001.jpg" class="d-block w-100" alt="carousel 001">
+                            <div class="carousel-caption d-none d-md-block custom-caption">
+                                <h5>Reporting a Lost Item</h5>
+                                <p>As an owner of a lost item, I want to report the lost item with detailed information, so that others can help me find it.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../static/images/carousel_002.jpg" class="d-block w-100" alt="carousel 002">
+                            <div class="carousel-caption d-none d-md-block custom-caption">
+                                <h5>Report a Found Item</h5>
+                                <p>As a Responsible neighbor, I want to report the found items with detailed information, so that the rightful owner can reclaim it.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../static/images/carousel_003.jpg" class="d-block w-100" alt="carousel 003">
+                            <div class="carousel-caption d-none d-md-block custom-caption">
+                                <h5>Search for Lost Items</h5>
+                                <p>As a user who has lost an item, I want to search through the list of reported found items, so that I can find and reclaim my lost item.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <img src="../static/images/carousel_004.jpg" class="d-block w-100" alt="carousel 004">
+                            <div class="carousel-caption d-none d-md-block custom-caption">
+                                <h5>Claim a Found Item</h5>
+                                <p>As an owner of a lost item who believes a found item is mine, I want to provide proof of ownership and communicate with the Quality checker, so that I can reclaim my lost item.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">About</h2>
+        <p class="text-center">
+            The Lost & Found project was inspired by the need to help people find their lost items or return found items to their rightful owners.
+            This is a semi-automated matching process where the application matches lost and found item reports, and a human quality checker verifies the match.
+            This project was developed as a Portfolio Project for Holberton School.
+        </p>
+        <div class="about-team d-flex justify-content-around mt-5">
+            <div>
+                <img src="https://via.placeholder.com/100" alt="Team Member 1" class="rounded-circle">
+                <p><strong>Marwa Sabon</strong></p>
+                <p>
+                    <a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                </p>
+            </div>
+            <div>
+                <img src="https://via.placeholder.com/100" alt="Team Member 2" class="rounded-circle">
+                <p><strong>Emmanuel Nwafor</strong></p>
+                <p>
+                    <a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://github.com"><i class="fab fa-github"></i></a>
+                    <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                </p>
+            </div>
+        </div>
+        <p class="text-center mt-4">
+            View the project repository on <a href="https://github.com/project_repo">GitHub</a>.
+        </p>
+    </div>
+</section>
+
+{% endblock content %}

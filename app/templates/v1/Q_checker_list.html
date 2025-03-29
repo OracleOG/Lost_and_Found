@@ -1,0 +1,207 @@
+{% extends "layout.html" %}
+{% block title %}Quality Checker{% endblock %}
+{% block content %}
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- Aside Section -->
+        <aside class="col-md-3 bg-light border-right vh-100" style="position: fixed;">
+            <div class="p-3">
+                <h4>Filters & Search</h4>
+                <form id="filter-form">
+                    <div class="form-group mb-3">
+                        <label for="search-input">Search</label>
+                        <input type="text" id="search-input" class="form-control" placeholder="Search by name or description">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="filter-category">Category</label>
+                        <select id="filter-category" class="form-select">
+                            <option value="">All Categories</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing</option>
+                            <option value="accessories">Accessories</option>
+                            <option value="documents">Documents</option>
+                            <option value="pets">Pets</option>
+                            <option value="miscellaneous">Miscellaneous</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="filter-date-start">Date Start</label>
+                        <input type="date" id="filter-date-start" class="form-control">
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="filter-date-end">Date End</label>
+                        <input type="date" id="filter-date-end" class="form-control">
+                    </div>
+                    <button type="button" id="filter-button" class="btn btn-primary w-100">Filter</button>
+                </form>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="col-md-9 offset-md-3">
+            <div class="p-3">
+                <h2>Quality Check List</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>S/N</th>
+                            <th>Item_ID</th>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Reported</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="items-table-body">
+                        <!-- Items will be dynamically populated here -->
+                    </tbody>
+                </table>
+                <!-- Pagination controls -->
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center" id="pagination-controls">
+                        <!-- Pagination will be dynamically populated here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Claim Modal -->
+<div class="modal fade" id="claimModal" tabindex="-1" role="dialog" aria-labelledby="claimModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="claimModalLabel">Claim Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="claimForm" method="POST" action="{{ url_for('item_bp.claim_item') }}">
+                <div class="modal-body">
+                    <input type="hidden" name="item_id" id="item_id">
+                    <div class="form-group">
+                        <label for="additional_information">Additional Information</label>
+                        <textarea class="form-control" id="additional_information" name="additional_information" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit Claim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    const apiUrl = 'http://127.0.0.1:5000/api/items';
+
+    function loadItems(searchQuery = '', filters = {}) {
+        $.ajax({
+            url: apiUrl,
+            method: 'GET',
+            success: function(response) {
+                const items = response.items;
+                let filteredItems = items;
+
+                // Apply search filter
+                if (searchQuery) {
+                    filteredItems = filteredItems.filter(item =>
+                        item.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        item.item_name.toLowerCase().includes(searchQuery.toLowerCase())
+                    );
+                }
+
+                // Apply additional filters
+                if (filters.category) {
+                    filteredItems = filteredItems.filter(item => item.item_category === filters.category);
+                }
+
+                if (filters.dateStart) {
+                    filteredItems = filteredItems.filter(item => new Date(item.date_reported) >= new Date(filters.dateStart));
+                }
+
+                if (filters.dateEnd) {
+                    filteredItems = filteredItems.filter(item => new Date(item.date_reported) <= new Date(filters.dateEnd));
+                }
+
+                // Apply status and claims filters
+                filteredItems = filteredItems.filter(item => 
+                    item.status === 'Found' && 
+                    item.claims_count > 0 && 
+                    !item.matches.some(match => match.status === 'confirmed')
+                );
+
+                // Sort items by date reported (newest first)
+                filteredItems.sort((a, b) => new Date(b.date_reported) - new Date(a.date_reported));
+
+                // Clear the current items in the table body
+                $('#items-table-body').empty();
+
+                // Append each filtered item to the table body
+                filteredItems.forEach((item, index) => {
+                    const daysAgo = Math.ceil((new Date() - new Date(item.date_reported)) / (1000 * 60 * 60 * 24));
+                    const itemDetailUrl = `/quality-checker/${item.id}`; // Construct the URL here
+                    const itemHtml = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.id}</td>
+                            <td>${item.image_url ? `<img src="${item.image_url}" alt="Item Image" width="100">` : ''}</td>
+                            <td>${item.item_name}</td>
+                            <td>${item.item_category}</td>
+                            <td>${daysAgo} days ago</td>
+                            <td>
+                                <a href="${itemDetailUrl}" class="btn btn-info">Confirm Match</a>
+                            </td>
+                        </tr>
+                    `;
+                    $('#items-table-body').append(itemHtml);
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Failed to load items:', textStatus, errorThrown);
+                alert('Failed to load items. Please try again later.');
+            }
+        });
+    }
+
+    $('#filter-button').click(function() {
+        const filters = {
+            category: $('#filter-category').val(),
+            dateStart: $('#filter-date-start').val(),
+            dateEnd: $('#filter-date-end').val()
+        };
+        const query = $('#search-input').val();
+        loadItems(query, filters);
+    });
+
+    // Initial load of items when the page is first loaded
+    loadItems();
+
+    $('#claimModal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const itemId = button.data('item-id');
+        const modal = $(this);
+        modal.find('.modal-body #item_id').val(itemId);
+    });
+});
+</script>
+
+{% endblock content %}
+ <!-- Footer -->
+ <footer class="footer bg-light py-3">
+    <div class="container text-center">
+        <p>
+            <strong>Lost & Found</strong> by <a href="#">Your Company</a>. © 2024 All rights reserved.
+        </p>
+    </div>
+</footer>
+</body>
+</html>

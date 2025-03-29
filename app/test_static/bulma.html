@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+        .hero {
+            background: url('https://source.unsplash.com/1600x900/?lost-and-found') no-repeat center center;
+            background-size: cover;
+            color: white;
+        }
+        .feature-box {
+            text-align: center;
+        }
+        .feature-box img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+        .feature-carousel {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .feature-item {
+            display: inline-block;
+            width: 100%;
+            transition: transform 1s ease-in-out;
+        }
+        .about-team {
+            display: flex;
+            justify-content: space-around;
+        }
+        .about-team div {
+            text-align: center;
+        }
+        .about-team img {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar is-light">
+        <div class="navbar-brand">
+            <a class="navbar-item">
+                <img src="images/LOST.png" alt="App Logo"> <!-- Placeholder for logo -->
+                <span class="ml-2">LOST & FOUND</span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-end">
+                <a class="navbar-item" href="#intro">Home</a>
+                <a class="navbar-item" href="#features">Features</a>
+                <a class="navbar-item" href="#about">About</a>
+                <a class="navbar-item" href="create_request.html">Create Request</a>
+                <a class="navbar-item" href="search_results.html">Search Results</a>
+                <a class="navbar-item" href="quality_checker.html">Quality Checker</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Intro Section -->
+    <section id="intro" class="hero is-fullheight is-primary is-bold">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title">LOST & FOUND</h1>
+                <h2 class="subtitle">Find your lost items or report found items easily</h2>
+                <a href="deployed_project_url" class="button is-large is-link">Go to Application</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="title has-text-centered">Key Features</h2>
+            <div class="feature-carousel">
+                <div class="feature-item">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="box feature-box">
+                                <figure class="image is-4by3">
+                                    <img src="https://source.unsplash.com/800x600/?lost-item" alt="Feature 1"> <!-- Image dimensions: 800x600 -->
+                                </figure>
+                                <h3 class="title is-4">Report Lost Items</h3>
+                                <p>Report lost items with detailed information to help others find them.</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="box feature-box">
+                                <figure class="image is-4by3">
+                                    <img src="https://source.unsplash.com/800x600/?found-item" alt="Feature 2"> <!-- Image dimensions: 800x600 -->
+                                </figure>
+                                <h3 class="title is-4">Report Found Items</h3>
+                                <p>Report found items with detailed information so the rightful owner can reclaim them.</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="box feature-box">
+                                <figure class="image is-4by3">
+                                    <img src="https://source.unsplash.com/800x600/?search-items" alt="Feature 3"> <!-- Image dimensions: 800x600 -->
+                                </figure>
+                                <h3 class="title is-4">Search for Lost Items</h3>
+                                <p>Search through the list of reported found items to find and reclaim your lost items.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="title has-text-centered">About</h2>
+            <p>
+                The Lost & Found project was inspired by the need to help people find their lost items or return found items to their rightful owners.
+                This is a semi-automated matching process where the application matches lost and found item reports, and a human quality checker verifies the match.
+                This project was developed as a Portfolio Project for Holberton School.
+            </p>
+            <div class="about-team">
+                <div>
+                    <img src="https://via.placeholder.com/100" alt="Team Member 1">
+                    <p><strong>Member 1</strong></p>
+                    <p>
+                        <a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com"><i class="fab fa-github"></i></a>
+                        <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                    </p>
+                </div>
+                <div>
+                    <img src="https://via.placeholder.com/100" alt="Team Member 2">
+                    <p><strong>Member 2</strong></p>
+                    <p>
+                        <a href="https://linkedin.com"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://github.com"><i class="fab fa-github"></i></a>
+                        <a href="https://twitter.com"><i class="fab fa-twitter"></i></a>
+                    </p>
+                </div>
+            </div>
+            <p class="has-text-centered">
+                View the project repository on <a href="https://github.com/project_repo">GitHub</a>.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Lost & Found</strong> by <a href="#">Your Company</a>. © 2024 All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for the feature carousel animation
+        let currentFeatureIndex = 0;
+        const features = document.querySelectorAll('.feature-item');
+        setInterval(() => {
+            features[currentFeatureIndex].style.transform = `translateX(-${currentFeatureIndex * 100}%)`;
+            currentFeatureIndex = (currentFeatureIndex + 1) % features.length;
+        }, 3000);
+    </script>
+</body>
+</html>

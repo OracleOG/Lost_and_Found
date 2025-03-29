@@ -1,0 +1,136 @@
+{% extends "/v2/layout.html" %}
+{% block content %}
+
+<!-- Create Request Form -->
+<section class="py-5">
+    <div class="container">
+        <h1 class="text-center">Create a Request</h1>
+        <form method="POST" enctype="multipart/form-data" action="{{ url_for('create_request_bp.create_request') }}" class="row g-3">
+            {{ form.hidden_tag() }}
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.name.label(class="form-label") }}
+                    {{ form.name(class="form-control", placeholder="e.g. Alex Smith") }}
+                    {% for error in form.name.errors %}
+                        <span class="invalid-feedback">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.email.label(class="form-label") }}
+                    {{ form.email(class="form-control", placeholder="e.g. alexsmith@gmail.com") }}
+                    {% for error in form.email.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.phone.label(class="form-label") }}
+                    {{ form.phone(class="form-control", placeholder="e.g. +1 234 567 890") }}
+                    {% for error in form.phone.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.item_name.label(class="form-label") }}
+                    {{ form.item_name(class="form-control", placeholder="e.g. Black Wallet") }}
+                    {% for error in form.item_name.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.serial_number.label(class="form-label") }}
+                    {{ form.serial_number(class="form-control", placeholder="e.g. 1234567890") }}
+                    {% for error in form.serial_number.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.item_category.label(class="form-label") }}
+                    {{ form.item_category(class="form-select") }}
+                    {% for error in form.item_category.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.item_color.label(class="form-label") }}
+                    {{ form.item_color(class="form-control", placeholder="e.g. Black") }}
+                    {% for error in form.item_color.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.item_brand.label(class="form-label") }}
+                    {{ form.item_brand(class="form-control", placeholder="e.g. Samsung") }}
+                    {% for error in form.item_brand.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.date_lost_found.label(class="form-label") }}
+                    {{ form.date_lost_found(class="form-control") }}
+                    {% for error in form.date_lost_found.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.location_lost_found.label(class="form-label") }}
+                    {{ form.location_lost_found(class="form-control", placeholder="e.g. Central Park") }}
+                    {% for error in form.location_lost_found.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.status.label(class="form-label") }}
+                    {{ form.status(class="form-select") }}
+                    {% for error in form.status.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    {{ form.image.label(class="form-label") }}
+                    {{ form.image(class="form-control") }}
+                    {% for error in form.image.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control", rows="4", placeholder="Describe the item...") }}
+                    {% for error in form.description.errors %}
+                        <span class="text-danger">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            
+            <div class="col-12 text-center">
+                {{ form.submit(class="btn btn-primary") }}
+            </div>
+        </form>
+    </div>
+</section>
+
+{% endblock content %}

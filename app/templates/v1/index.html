@@ -1,0 +1,105 @@
+{% extends "/v1/layout.html" %}
+{% block content %}
+    <br>
+    <!-- Search Section -->
+    <section class="search-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8"> <!-- Adjust the width here -->
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-3">
+                    <a class="btn btn-primary btn-lg w-100" href="{{ url_for('item_bp.upload_item') }}">Find Item</a>
+                </div>
+                <div class="col-md-3">
+                    <a class="btn btn-secondary btn-lg w-100" href="{{ url_for('item_bp.upload_item') }}">Report Item</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <hr>
+    <hr>
+
+    <!-- Newsfeed Section -->
+
+    <section class="newsfeed-section">
+        <div class="container">
+            <div class="filter-sort-icon">
+                <i class="fas fa-filter"></i> <i class="fas fa-sort"></i>
+            </div>
+            <div class="row">
+                <!-- Dummy Items -->
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 1 day ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 3</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 2 days ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 1</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 3 days ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 2</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 4 days ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 5</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 5 days ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 4</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="newsfeed-item">
+                        <img src="https://via.placeholder.com/350x150" alt="Item Image">
+                        <div class="report-date">Reported: 6 days ago</div>
+                        <p>Item description goes here. This is a dummy description for the item.</p>
+                        <div class="claims-count">Claims: 0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock content %}
+
+    <!-- Footer -->
+    <footer class="footer py-3 bg-dark text-white text-center">
+        <div class="container">
+            <p class="mb-0">
+                <strong>Lost & Found</strong> by <a href="#" class="text-white">Your Company</a>. © 2024 All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+

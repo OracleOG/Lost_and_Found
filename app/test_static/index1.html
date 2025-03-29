@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>landing page</title>
+  <link rel="stylesheet" href="node_modules/bulma/css/bulma.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Header with Navigation -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="#">
+        <h4>Lost & Found</h4>
+        <!--<img src="images/lost.png" width="112" height="28"> -->
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item">
+          Home
+        </a>
+
+        <a class="navbar-item">
+          Create a Request
+        </a>
+        <a class="navbar-item">
+            Search
+          </a>
+          <a class="navbar-item">
+            Unclaimed items
+          </a>
+          <a class="navbar-item">
+            Quality Checker
+          </a>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              About
+            </a>
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Section with 3 Divs -->
+  <section class="section is-centered is-vcentered">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <!-- First Div with Search Box -->
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input class="input" type="text" placeholder="Search...">
+            </div>
+            <div class="control">
+              <a class="button is-info">
+                Search
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <!-- Second Div with Buttons -->
+          <div class="buttons is-centered">
+            <a class="button is-primary">Finder</a>
+            <a class="button is-danger">Owner</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer with Links -->
+  <footer class="footer">
+    <div class="content has-text-centered">
+      <p>
+        <strong>Contact us: ALX SE C21.</strong>  by <a href="https://jgthms.com">Silver & OracleOG</a>. The source code is licensed
+        <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+      </p>
+      <p>
+        <a href="https://github.com/jgthms/bulma">GitHub</a> |
+        <a href="https://twitter.com/bulmaio">Twitter</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

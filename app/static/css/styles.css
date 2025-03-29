@@ -1,0 +1,281 @@
+/* styles.css */
+
+/* Reverted Navbar Styling - smaller Elements */
+.navbar {
+    background-color: #000000 !important;
+    padding: 8px 0; /* Increased padding */
+}
+
+.container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 95%; /* Slightly smaller width */
+    max-width: 1400px; /* Slightly smaller max-width */
+    margin: 0 auto;
+}
+
+/* Entity 1: Brand Styling - Larger Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Increased gap */
+    margin-right: 20px; /* smaller margin */
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+}
+
+.brand-logo img {
+    height: 35px; /* smaller logo size */
+    width: auto;
+}
+
+/* Tilted Brand Text */
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+    transform: rotate(-8.47deg); /* Added tilt as requested */
+}
+
+.brand-lost {
+    font-family: 'Irish Grover', cursive;
+    font-weight: 700;
+    font-size: 18px; /* smaller font size */
+    color: #ffffff;
+}
+
+.brand-found {
+    font-family: 'Post No Bills Jaffna ExtraBold', sans-serif;
+    font-weight: 700;
+    font-size: 18px; /* Increased font size */
+    color: #ffffff;
+}
+
+/* Entity 2: Enhanced Search Bar */
+.navbar-search {
+    min-width: 300px; /* Increased width more */
+    margin-right: 20px;
+    position: relative;
+}
+
+.search-input-container {
+    position: relative;
+    width: 100%;
+}
+
+.navbar-search .form-control {
+    border-radius: 20px;
+    padding-right: 40px;
+    padding: 8px 40px 8px 15px; /* smaller padding for smaller appearance */
+    font-size: 14px; /* Larger text */
+    
+}
+
+.search-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px; /* Slightly larger */
+    height: 28px; /* Slightly larger */
+    border-radius: 50%;
+    background-color: #28a745;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000;
+    padding: 0;
+    
+}
+
+.search-btn:hover {
+    background-color: #218838;
+}
+
+.search-btn i {
+    font-size: 14px;
+}
+
+/* Entity 3: Nav Links - Bigger */
+.navbar-nav {
+    display: flex;
+    gap: 15px;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px; /* Increased font size */
+    padding: 8px 12px; /* Increased padding */
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Entity 4: User Profile - Larger & Fixed Dropdown */
+.user-profile-container {
+    position: relative;
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.user-profile-img {
+    border: 2px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 35px; /* Increased size */
+    height: 35px; /* Increased size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-profile-img img {
+    width: 100%; /* Fill container */
+    height: 100%; /* Fill container */
+    object-fit: cover; /* Maintain aspect ratio */
+}
+
+.user-dropdown {
+    position: absolute;
+    top: calc(100% + 0px); /* Remove the gap */
+    right: 0;
+    width: 200px; /* Slightly wider */
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    padding: 8px 0;
+    display: none;
+    z-index: 1000;
+}
+
+/* Flash Messages */
+.flash-container {
+    max-width: 95%;
+    margin: 8px auto;
+}
+
+.alert {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert .btn-close {
+    position: relative;
+    padding: 0.25rem;
+    margin: -0.25rem -0.5rem -0.25rem 0.5rem;
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Optional: better spacing for alert message */
+.alert-dismissible {
+    padding-right: 2.5rem;
+}
+
+/* Create a pseudo-element to bridge the gap */
+.user-profile-container::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 15px; /* This creates an invisible bridge */
+    background: transparent;
+}
+
+/* This keeps the user profile dropdown working properly */
+.user-profile-container:hover .user-dropdown {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 8px 15px;
+}
+
+.dropdown-item a {
+    color: #343a40;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
+
+/* Filter toggle button styles */
+#filter-toggle {
+    padding: 10px 15px;
+    font-size: 18px;
+}
+
+#filter-toggle:hover {
+    background-color: #f1f1f1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .navbar-collapse {
+        flex-direction: column;
+    }
+    
+    .navbar-brand {
+        margin-right: 15px;
+    }
+    
+    .brand-logo img {
+        height: 35px;
+    }
+    
+    .navbar-search {
+        margin: 15px 0;
+        min-width: 100%;
+    }
+    
+    .navbar-nav {
+        margin: 10px 0;
+    }
+    
+    .user-profile-container {
+        margin: 10px 0;
+        align-self: flex-end;
+    }
+}
+
+.cta_index {
+    border-radius: 30px;
+    font-family: 'Irish Grover', cursive;
+    font-weight: 700;
+    font-size: 18px; /* Increased font size */
+    color: #ffffff;
+}
+
+/* Main Content Wrapper */
+.content-wrapper {
+    width: 95%;
+    max-width: 1400px; /* Match navbar container */
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+/* For mobile screens */
+@media (max-width: 992px) {
+    .navbar-search {
+        min-width: 100%;
+    }
+    
+    .content-wrapper {
+        width: 100%;
+        padding: 0 10px;
+    }
+}

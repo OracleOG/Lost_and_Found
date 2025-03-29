@@ -1,0 +1,35 @@
+/* style.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-image: url('../images/background1.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.section.custom-background {
+  background-image: url('../images/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #333;
+  color: #fff;
+  padding: 4px 0;
+}
+
+/* Centering the content in the landing page */
+.section .columns.is-centered .box {
+  margin-top: 20vh;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}

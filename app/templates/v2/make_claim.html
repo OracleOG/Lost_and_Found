@@ -1,0 +1,154 @@
+{% extends "/v2/layout.html" %}
+{% block title %}Make a Claim{% endblock %}
+
+{% block content %}
+<section class="make-claim-section py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- Page title with item ID badge -->
+                <div class="d-flex align-items-center justify-content-center mb-4">
+                    <h2 class="mb-0 me-2">Make a Claim</h2>
+                    <span class="badge bg-primary rounded-pill fs-6">Item #{{ item.id }}</span>
+                </div>
+                
+                <!-- Flash messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                <i class="fas {% if category == 'success' %}fa-check-circle{% elif category == 'danger' %}fa-exclamation-circle{% else %}fa-info-circle{% endif %} me-2"></i>
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <!-- Item details card -->
+                <div class="card shadow-sm border-0 mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-box-open me-2 text-primary"></i>
+                            {{ item.item_name }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Description:</dt>
+                                    <dd class="col-sm-8">{{ item.description }}</dd>
+                                    
+                                    <dt class="col-sm-4">Category:</dt>
+                                    <dd class="col-sm-8">
+                                        <span class="badge bg-secondary">{{ item.item_category }}</span>
+                                    </dd>
+                                    
+                                    <dt class="col-sm-4">Color:</dt>
+                                    <dd class="col-sm-8">{{ item.item_color }}</dd>
+                                    
+                                    <dt class="col-sm-4">Location:</dt>
+                                    <dd class="col-sm-8">
+                                        <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                        {{ item.location_lost_found }}
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="col-md-4">
+                                {% if item.image_url %}
+                                    {% set filename = item.image_url.split('/')[-1] %}
+                                    <img src="{{ url_for('static', filename='item_images/' + filename) }}" 
+                                         alt="{{ item.item_name }}" class="img-fluid rounded shadow-sm" 
+                                         style="max-height: 180px; object-fit: contain;">
+                                {% else %}
+                                    <div class="text-center p-4 bg-light rounded">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                        <p class="text-muted mt-2 mb-0 small">No image available</p>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Claim form card -->
+                <div class="card shadow-sm border-0">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-file-signature me-2 text-primary"></i>
+                            Claim Details
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data" action="{{ url_for('create_request_bp.make_claim', item_id=item.id) }}">
+                            {{ form.hidden_tag() }}
+                            {{ form.item_id(value=item.id) }}
+                            
+                            <div class="mb-4">
+                                <label for="additional_information" class="form-label fw-bold">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Additional Information
+                                </label>
+                                {{ form.additional_information(class="form-control", placeholder="Please provide details to support your claim. Be specific about when and where you lost the item, and any identifying characteristics.", rows="5") }}
+                                {% for error in form.additional_information.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                                <div class="form-text">The more details you provide, the faster we can process your claim.</div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="location_lost" class="form-label fw-bold">
+                                    <i class="fas fa-map-marker-alt me-1"></i>
+                                    Where did you lose it?
+                                </label>
+                                {{ form.location_lost(class="form-control", placeholder="Provide the exact location if possible") }}
+                                {% for error in form.location_lost.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="date_lost" class="form-label fw-bold">
+                                    <i class="fas fa-calendar-alt me-1"></i>
+                                    When did you lose it?
+                                </label>
+                                {{ form.date_lost(class="form-control", type="date") }}
+                                {% for error in form.date_lost.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="proof_image" class="form-label fw-bold">
+                                    <i class="fas fa-image me-1"></i>
+                                    Proof Image (optional)
+                                </label>
+                                <div class="input-group">
+                                    {{ form.proof_image(class="form-control") }}
+                                    <span class="input-group-text"><i class="fas fa-camera"></i></span>
+                                </div>
+                                {% for error in form.proof_image.errors %}
+                                    <div class="text-danger mt-1"><small>{{ error }}</small></div>
+                                {% endfor %}
+                                <div class="form-text">Upload a photo of yourself with the item, a receipt, or any other proof of ownership.</div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary py-2">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    Submit Claim
+                                </button>
+                                <a href="{{ url_for('home_bp.home') }}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i>
+                                    Return to Home
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

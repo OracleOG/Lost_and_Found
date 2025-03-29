@@ -1,0 +1,185 @@
+{% extends "/v2/layout.html" %}
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<section class="user-profile-section py-5">
+    <div class="container">
+        <h1 class='text-center mb-4' style="font-family: 'Post No Bills Jaffna SemiBold',  sans-serif; ">MY PROFILE</h1>
+            
+        <div class="row">
+            <div class="col-md-4">
+                <!-- Profile Card -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-body text-center">
+                        <div class="profile-image-container mb-3">
+                            {% if user.profile_image_url %}
+                                <img src="{{ url_for('static', filename=user.profile_image_url.split('static/')[1]) }}" 
+                                     alt="Profile" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <img src="{{ url_for('static', filename='images/default_profile.jpg') }}" 
+                                     alt="Default Profile" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                            {% endif %}
+                        </div>
+                        <h4>{{ user.username }}</h4>
+                        <p class="text-muted">{{ user.email }}</p>
+                        <p class="badge bg-info text-dark">{{ user.role.name if user.role else 'User' }}</p>
+                        <p class="text-muted small">Member since: {{ user.created_at.strftime('%B %d, %Y') if user.created_at else 'Unknown' }}</p>
+                    </div>
+                </div>
+                
+                <!-- Activity Summary -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Activity Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Items Reported:</span>
+                            <span class="badge bg-primary">{{ items|length }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <span>Claims Made:</span>
+                            <span class="badge bg-info">{{ claims|length }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <!-- Update Profile Form -->
+                <div class="card border-0 shadow-sm mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">Update Profile</h5>
+                    </div>
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                {% for category, message in messages %}
+                                    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                        
+                        <form method="POST" enctype="multipart/form-data">
+                            {{ form.hidden_tag() }}
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                {{ form.username(class="form-control") }}
+                                {% for error in form.username.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                {{ form.email(class="form-control") }}
+                                {% for error in form.email.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="mb-3">
+                                <label for="profile_image" class="form-label">Profile Picture</label>
+                                {{ form.profile_image(class="form-control") }}
+                                {% for error in form.profile_image.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                                <div class="form-text">Upload a profile picture (JPG, PNG, or GIF format)</div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">New Password (optional)</label>
+                                {{ form.password(class="form-control", placeholder="Leave blank to keep current password") }}
+                                {% for error in form.password.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- User Activity -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="card-title mb-0">My Activity</h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Items Tab -->
+                        <h6 class="fw-bold">My Items</h6>
+                        {% if items %}
+                            <div class="table-responsive mb-4">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Category</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in items %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ url_for('home_bp.item_detail', item_id=item.id) }}">
+                                                        {{ item.item_name }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ item.item_category }}</td>
+                                                <td>
+                                                    <span class="badge {{ 'bg-success' if item.status == 'approved' else ('bg-warning text-dark' if item.status == 'pending' else 'bg-secondary') }}">
+                                                        {{ item.status }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ item.created_at.strftime('%Y-%m-%d') if item.created_at else 'N/A' }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No items reported yet.</p>
+                        {% endif %}
+                        
+                        <!-- Claims Tab -->
+                        <h6 class="fw-bold">My Claims</h6>
+                        {% if claims %}
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for claim in claims %}
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ url_for('home_bp.item_detail', item_id=claim.item_id) }}">
+                                                        {{ claim.item.item_name if claim.item else 'Unknown Item' }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <span class="badge {{ 'bg-success' if claim.status == 'approved' else ('bg-warning text-dark' if claim.status == 'pending' else 'bg-danger') }}">
+                                                        {{ claim.status }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ claim.created_at.strftime('%Y-%m-%d') if claim.created_at else 'N/A' }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <p class="text-muted">No claims made yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

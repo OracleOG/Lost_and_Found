@@ -1,0 +1,326 @@
+{% extends "/v2/layout.html" %}
+{% block title %}Quality Check Item{% endblock %}
+
+{% block content %}
+<!-- Header with Navigation - Outside the row layout -->
+<div class="container-fluid py-3 mb-4 border-bottom bg-light">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1 style="font-family: 'Post No Bills Jaffna', sans-serif;">QUALITY CHECK</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url_for('quality_checker_bp.list_items_for_qc') }}">Items</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Item #{{ item.id }}</li>
+                </ol>
+            </nav>
+        </div>
+        <div class="d-flex align-items-center">
+            <div class="btn-group me-2" role="group" aria-label="Navigation">
+                <button id="prev-item" class="btn btn-outline-primary">
+                    <i class="fas fa-chevron-left me-1"></i> Previous
+                </button>
+                <button id="next-item" class="btn btn-outline-primary">
+                    Next <i class="fas fa-chevron-right ms-1"></i>
+                </button>
+            </div>
+            <a href="{{ url_for('quality_checker_bp.list_items_for_qc') }}" class="btn btn-secondary">
+                <i class="fas fa-list me-1"></i> Back to List
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-3">
+    <div class="row" id="item-container" data-item-id="{{ item.id }}">
+        <!-- Main content - Item details and claims list -->
+        <div class="col-lg-7">
+            <!-- Item Details -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-box-open text-primary me-2"></i>{{ item.item_name }}
+                    </h5>
+                    <span class="badge {{ 'bg-success' if item.warehouse_status == 'in_warehouse' else 'bg-warning text-dark' }}">
+                        {{ item.warehouse_status|replace('_', ' ')|title or 'Not set' }}
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center mb-3 mb-md-0">
+                            {% if item.image_url %}
+                                {% set filename = item.image_url.split('/')[-1] %}
+                                <img src="{{ url_for('static', filename='item_images/' + filename) }}" 
+                                     class="img-fluid rounded mb-2" alt="{{ item.item_name }}" 
+                                     style="max-height: 200px; object-fit: contain;">
+                            {% else %}
+                                <div class="bg-light rounded p-4">
+                                    <i class="fas fa-image fa-3x text-muted mb-2"></i>
+                                    <p class="text-muted small">No image</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-8">
+                            <div class="mb-3">
+                                <h6 class="text-muted">Description</h6>
+                                <p>{{ item.description }}</p>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 text-muted">Category:</div>
+                                <div class="col-sm-8">
+                                    <span class="badge bg-info text-dark">{{ item.item_category }}</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 text-muted">Color:</div>
+                                <div class="col-sm-8">{{ item.item_color }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 text-muted">Brand:</div>
+                                <div class="col-sm-8">{{ item.item_brand or 'Not specified' }}</div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 text-muted">Date Found:</div>
+                                <div class="col-sm-8">{{ item.date_lost_found.strftime('%B %d, %Y') if item.date_lost_found else 'Not specified' }}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4 text-muted">Location:</div>
+                                <div class="col-sm-8">
+                                    <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                    {{ item.location_lost_found }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Claims Section -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-file-signature text-primary me-2"></i>Claims
+                        <span class="badge bg-primary ms-2">{{ claims|length if claims else '0' }}</span>
+                    </h5>
+                </div>
+                <div class="card-body p-0">
+                    {% if claims %}
+                        <div class="list-group list-group-flush" id="claims-list">
+                            {% for claim in claims %}
+                                <div class="list-group-item p-3 claim-item" 
+                                     data-claim-id="{{ claim.id }}"
+                                     data-claim-info="{{ claim.additional_information }}"
+                                     data-claim-date="{{ claim.created_at.strftime('%B %d, %Y') if claim.created_at else 'Unknown date' }}"
+                                     data-claim-status="{{ claim.status }}"
+                                     data-claim-proof="{{ url_for('static', filename='item_images/' + claim.proof_image_url.split('/')[-1]) if claim.proof_image_url else '' }}"
+                                     data-claimer-name="{{ claim.user.full_name if claim.user else 'Unknown user' }}"
+                                     data-location-lost="{{ claim.location_lost or 'Not specified' }}"
+                                     data-date-lost="{{ claim.date_lost.strftime('%B %d, %Y') if claim.date_lost else 'Not specified' }}">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">Claim #{{ claim.id }}</h6>
+                                            <small class="text-muted">{{ claim.created_at.strftime('%B %d, %Y') if claim.created_at else 'Unknown date' }}</small>
+                                        </div>
+                                        <span class="badge {{ 'bg-warning text-dark' if claim.status == 'pending' else ('bg-success' if claim.status == 'approved' else 'bg-danger') }}">
+                                            {{ claim.status|capitalize }}
+                                        </span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                            <p>No claims have been submitted for this item.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Side panel - Selected claim details -->
+        <div class="col-lg-5">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white py-3">
+                    <h5 class="card-title mb-0">
+                        <i class="fas fa-info-circle text-primary me-2"></i>Claim Details
+                    </h5>
+                </div>
+                <div class="card-body" id="claim-details-container">
+                    <!-- Initially empty, populated by JavaScript when a claim is clicked -->
+                    <div id="empty-state" class="text-center py-5">
+                        <i class="fas fa-hand-pointer fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted">Select a claim</h5>
+                        <p class="text-muted">Click on a claim from the list to view its details.</p>
+                    </div>
+                    
+                    <div id="claim-details" style="display: none;">
+                        <div class="mb-4">
+                            <h5 id="claim-title" class="border-bottom pb-2 mb-3"></h5>
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <small class="text-muted d-block mb-1">Submitted by</small>
+                                    <strong id="claimer-name"></strong>
+                                </div>
+                                <div>
+                                    <small class="text-muted d-block mb-1">Status</small>
+                                    <span id="claim-status-badge"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <h6 class="text-muted mb-2">Claim Information</h6>
+                            <p id="claim-information" class="bg-light p-3 rounded"></p>
+                        </div>
+                        
+                        <div class="row mb-4">
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block mb-1">Date Lost</small>
+                                <span id="date-lost"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <small class="text-muted d-block mb-1">Location Lost</small>
+                                <span id="location-lost"></span>
+                            </div>
+                        </div>
+                        
+                        <div id="proof-image-container" class="mb-4">
+                            <h6 class="text-muted mb-2">Proof Image</h6>
+                            <img id="proof-image" class="img-fluid rounded border" alt="Proof image">
+                        </div>
+                        
+                        <div id="action-buttons" class="d-flex justify-content-end">
+                            <button id="reject-claim-btn" class="btn btn-danger me-2" style="display: none;">
+                                <i class="fas fa-times me-1"></i> Reject
+                            </button>
+                            <button id="approve-claim-btn" class="btn btn-success" style="display: none;">
+                                <i class="fas fa-check me-1"></i> Approve
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+$(document).ready(function() {
+    // Claim selection handling
+    $('.claim-item').click(function() {
+        // Remove active class from all claims
+        $('.claim-item').removeClass('active bg-light');
+        
+        // Add active class to clicked claim
+        $(this).addClass('active bg-light');
+        
+        // Get claim data from data attributes
+        const claimId = $(this).data('claim-id');
+        const claimInfo = $(this).data('claim-info');
+        const claimDate = $(this).data('claim-date');
+        const claimStatus = $(this).data('claim-status');
+        const proofImage = $(this).data('claim-proof');
+        const claimerName = $(this).data('claimer-name');
+        const locationLost = $(this).data('location-lost');
+        const dateLost = $(this).data('date-lost');
+        
+        // Hide empty state, show claim details
+        $('#empty-state').hide();
+        $('#claim-details').show();
+        
+        // Populate claim details
+        $('#claim-title').text(`Claim #${claimId}`);
+        $('#claimer-name').text(claimerName);
+        $('#claim-information').text(claimInfo);
+        $('#date-lost').text(dateLost);
+        $('#location-lost').text(locationLost);
+        
+        // Set status badge
+        let badgeClass = 'bg-secondary';
+        if (claimStatus === 'pending') badgeClass = 'bg-warning text-dark';
+        else if (claimStatus === 'approved') badgeClass = 'bg-success';
+        else if (claimStatus === 'rejected') badgeClass = 'bg-danger';
+        
+        $('#claim-status-badge').html(`<span class="badge ${badgeClass}">${claimStatus.charAt(0).toUpperCase() + claimStatus.slice(1)}</span>`);
+        
+        // Handle proof image
+        if (proofImage) {
+            $('#proof-image').attr('src', proofImage).show();
+            $('#proof-image-container').show();
+        } else {
+            $('#proof-image-container').hide();
+        }
+        
+        // Show/hide action buttons based on status
+        if (claimStatus === 'pending') {
+            $('#approve-claim-btn').show().data('claim-id', claimId);
+            $('#reject-claim-btn').show().data('claim-id', claimId);
+        } else {
+            $('#approve-claim-btn').hide();
+            $('#reject-claim-btn').hide();
+        }
+    });
+    
+    // Handle claim approval
+    $('#approve-claim-btn').click(function() {
+        const claimId = $(this).data('claim-id');
+        const itemId = $('#item-container').data('item-id');
+        const confirmAction = confirm(`Are you sure you want to approve claim & match Item #${itemId}?`);
+        
+        if (!confirmAction) return;
+        
+        $.ajax({
+            url: `/api/v2/matches/`,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                item_id: itemId,
+                claim_id: claimId
+            }),
+            success: function() {
+                alert('Claim approved and match created successfully');
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert(`Failed to approve claim: ${xhr.responseText || error}`);
+            }
+        });
+    });
+
+    // Handle claim rejection
+    $('#reject-claim-btn').click(function() {
+        const claimId = $(this).data('claim-id');
+        const confirmAction = confirm(`Are you sure you want to reject claim #${claimId}?`);
+        
+        if (!confirmAction) return;
+        
+        $.ajax({
+            url: `/api/v2/claims/${claimId}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                status: 'rejected'
+            }),
+            success: function() {
+                alert('Claim rejected successfully');
+                window.location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert(`Failed to reject claim: ${xhr.responseText || error}`);
+            }
+        });
+    });
+
+    // Navigation between items
+    $('#next-item').click(function() {
+        alert('Next item navigation not implemented yet');
+    });
+    
+    $('#prev-item').click(function() {
+        alert('Previous item navigation not implemented yet');
+    });
+});
+</script>
+{% endblock %}
+{% endblock content %}

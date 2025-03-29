@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %} Related Items {% endblock %}
+
+{% block content %}
+    <section class="related-items-section py-5">
+        <div class="container">
+            <h2 class="text-center mb-4">Potential Matches for your Lost Item</h2>
+            <div class="row">
+                {% if Items %}
+                    {% for item in Items %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                {% if item.image %}
+                                    <img src="{{ url_for('static', filename='images/' + item.image) }}" class="card-img-top" alt="{{ item.item_name }}">
+                                {% else %}
+                                    <div class="card-img-top text-center py-5 bg-light">No Image</div>
+                                {% endif %}
+                                <div class="card-body">
+                                <h5 class="card-title">{{ item.item_name }}</h5>
+                                <p class="card-text"><strong>Category:</strong> {{ item.item_category }}</p>
+                                <p class="card-text"><strong>Location:</strong> {{ item.location_lost_found }}</p>
+                                <p class="card-text">{{ item.description }}</p>
+                                <a href="{{ url_for('create_request_bp.make_claim', item_id=item.id) }}" class="btn btn-primary w-100">Claim This Item</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p>No related items found at this time.</p>
+                    <a href="{{ url_for('home_bp.home') }}" class="btn btn-secondary">Back to Home</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

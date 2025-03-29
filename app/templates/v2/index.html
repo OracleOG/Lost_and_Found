@@ -1,0 +1,138 @@
+{% extends "/v2/layout.html" %}
+{% block content %}
+    <!-- Filter Section -->
+    <section class="search-section py-4">
+        <div class="container">
+            <div class="row justify-content-between">
+                <div class="col-md-10">
+                    <!-- This space is now empty since you removed the search bar -->
+                </div>
+                <div class="col-md-2 d-flex justify-content-end">
+                    <button id="filter-toggle" class="btn btn-outline-dark">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="filter-container" class="row justify-content-center mt-3" style="display: none;">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select id="filter-category" class="form-select">
+                                <option value="">All Category</option>
+                                <option value="electronics">Electronics</option>
+                                <option value="clothing">Clothing</option>
+                                <option value="accessories">Accessories</option>
+                                <option value="documents">Documents</option>
+                                <option value="miscellaneous">Miscellaneous</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input id="filter-location" class="form-control" type="text" placeholder="Location">
+                        </div>
+                        <div class="col-md-4">
+                            <input id="filter-date-start" class="form-control" type="date" placeholder="Start Date">
+                        </div>
+                        <div class="col-md-4">
+                            <input id="filter-date-end" class="form-control" type="date" placeholder="End Date">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-3">
+                    <a href="{{ url_for('create_request_bp.create_request') }}" class="btn btn-danger btn-lg w-50 cta_index">LOST ITEM?</a>
+                </div>
+                <div class="col-md-3">
+                    <a href="{{ url_for('create_request_bp.create_request') }}" class="btn btn-success btn-lg w-50 cta_index">FOUND ITEM?</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsfeed Section  -->
+    <section class="newsfeed-section py-4">
+        <div class="container">
+            <div class="row" id="newsfeed-container">
+                <!-- Items will be dynamically loaded by homepage.js -->
+            </div>
+            <!-- Pagination -->
+             
+            {% if items.has_next or items.has_prev %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center mt-4">
+                        {% if items.has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('home_route.home', page=items.prev_num) }}">Previous</a>
+                            </li>
+                        {% endif %}
+                        {% for p in items.iter_pages() %}
+                            {% if p %}
+                                <li class="page-item {% if p == items.page %}active{% endif %}">
+                                    <a class="page-link" href="{{ url_for('home_route.home', page=p) }}">{{ p }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled"><span class="page-link">...</span></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if items.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url_for('home_route.home', page=items.next_num) }}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
+        </div>
+    </section>
+
+     <!-- Item Details Modal -->
+     <div class="modal fade" id="itemDetailsModal" tabindex="-1" aria-labelledby="itemDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="itemDetailsModalLabel">Item Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center">
+                        <img id="itemModalImage" src="" alt="Item Image" class="img-fluid mb-3" style="max-height: 300px; object-fit: cover;">
+                    </div>
+                    <h6 id="itemModalName"></h6>
+                    <p id="itemModalDescription"></p>
+                    <p id="itemModalLocation" class="text-muted"></p>
+                    <div id="itemModalExtraDetails" class="mt-3">
+                        <!-- Extra details for admin/QC -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="claimItemButton">Claim Item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Filter toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterToggle = document.getElementById('filter-toggle');
+        const filterContainer = document.getElementById('filter-container');
+        
+        filterToggle.addEventListener('click', function() {
+            if (filterContainer.style.display === 'none' || filterContainer.style.display === '') {
+                filterContainer.style.display = 'flex';
+                filterToggle.classList.add('active');
+                filterToggle.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                filterContainer.style.display = 'none';
+                filterToggle.classList.remove('active');
+                filterToggle.innerHTML = '<i class="fas fa-filter"></i>';
+            }
+        });
+    });
+</script>
+<script src="{{ url_for('static', filename='js/homepage.js') }}"></script>
+{% endblock %}

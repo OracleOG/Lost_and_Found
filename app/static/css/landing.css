@@ -31,12 +31,12 @@ html {
     text-align: center;
 }
 
-/* Full-height hero section with proper styling */
+/* Hero section styling modifications */
 #hero {
+    position: relative;
+    overflow: hidden;
     min-height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('/static/images/magnifying_001.jpg');
-    background-size: cover;
-    background-position: center;
+    background: #333;
     color: white;
     position: relative;
     display: flex;
@@ -44,6 +44,26 @@ html {
     margin-bottom: 0;
     padding-top: 76px; /* Adjust based on your navbar height */
     padding-bottom: 50px;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.bg-image-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7));
+    z-index: 1;
 }
 
 .fixed-header {
@@ -91,11 +111,6 @@ html {
     text-align: center;
 }
 
-.team-member img {
-    border-radius: 75%;
-    width: 200px;
-    height: 100px;
-}
 
 .carousel-fade .carousel-item {
     transition: opacity 1.5s ease-in-out;
@@ -167,7 +182,7 @@ html {
 
 .hero-title {
     font: 800 2.5rem 'Post No Bills Jaffna Extrabold', sans-serif;
-    font-size: 56px;
+    font-size: 68px;
 }
 
 /* Stylish scroll indicator */

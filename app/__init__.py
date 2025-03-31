@@ -31,6 +31,7 @@ def create_app():
     csrf.init_app(app)
 
     login_manager.login_view = 'auth_bp.login'
+    login_manager.login_message_category = "danger"
 
     # Import models after db initialization to avoid circular imports
     from .models.user import User

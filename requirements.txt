@@ -26,3 +26,4 @@ requests
 mysqlclient
 email_validator
 fuzzywuzzy==0.18.0
+python-Levenshtein==0.26.1
